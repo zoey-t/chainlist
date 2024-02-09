@@ -1,3 +1,5 @@
 # chainlist
 
-`bun run process.js`
+Run the following command to run the program:
+
+`node process.js`
