@@ -25,24 +25,18 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
 
     // Convert the filtered array back to a JSON string
     const filteredJsonString = JSON.stringify(filteredArray, null, 2); // Beautify the JSON output
-    // console.log("Filtered Json:", filteredJsonString);
+    //console.log("Filtered Json:", filteredJsonString);
 
     //Let's take the ETH chain for example
     var ethinfo = filteredArray.filter(function (eth) {
-      return eth.chainId == 1;
+      return eth["chainId"] == 1;
     });
 
-    let string = "";
+    //Get the rpcs
+    var rpcs = ethinfo[0].rpc;
 
-    string = ethinfo.chain;
-
-    console.log("Eth info:", ethinfo["chain"]);
-    console.log("Eth info:", typeof ethinfo);
-
-    // Now get the RPC
-    rpc = ethinfo.rpc;
-    //console.log("The RPC list is:", filteredArray);
-    //console.log("Eth info:", filteredArray.chain);
+    console.log("Eth info:", rpcs[0].endpoint);
+    console.log("Eth info:", typeof rpcs);
 
     // Axios section
     url = "https://mainnet.infura.io/v3/a1e8edaa30d6402e8e19546ad7a3fa8c";
@@ -100,3 +94,7 @@ const fetchChain = async (baseURL) => {
     return null;
   }
 };
+
+function myFunction(obj) {
+  return obj["chainId"] == 1;
+}
