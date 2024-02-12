@@ -32,12 +32,17 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
       return eth.chainId == 1;
     });
 
-    console.log("Eth info:", ethinfo);
+    let string = "";
+
+    string = ethinfo.chain;
+
+    console.log("Eth info:", ethinfo["chain"]);
     console.log("Eth info:", typeof ethinfo);
 
     // Now get the RPC
     rpc = ethinfo.rpc;
-    console.log("The RPC list is:", ethinfo["rpc"]);
+    //console.log("The RPC list is:", filteredArray);
+    //console.log("Eth info:", filteredArray.chain);
 
     // Axios section
     url = "https://mainnet.infura.io/v3/a1e8edaa30d6402e8e19546ad7a3fa8c";
