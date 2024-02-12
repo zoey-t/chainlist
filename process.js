@@ -23,10 +23,6 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
       })),
     }));
 
-    // Convert the filtered array back to a JSON string
-    const filteredJsonString = JSON.stringify(filteredArray, null, 2); // Beautify the JSON output
-    //console.log("Filtered Json:", filteredJsonString);
-
     //Let's take the ETH chain for example
     var ethinfo = filteredArray.filter(function (eth) {
       return eth["chainId"] == 1;
@@ -54,6 +50,11 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
     query = fetchChain(url);
 
     console.log(query);
+
+    // Convert the filtered array back to a JSON string
+    const filteredJsonString = JSON.stringify(filteredArray, null, 2); // Beautify the JSON output
+    //console.log("Filtered Json:", filteredJsonString);
+
     // Write the filtered JSON to a new file
     /*
     fs.writeFile(outputPath, filteredJsonString, "utf8", (err) => {
@@ -104,7 +105,3 @@ const fetchChain = async (baseURL) => {
     return null;
   }
 };
-
-function myFunction(obj) {
-  return obj["chainId"] == 1;
-}
