@@ -35,6 +35,16 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
     //Get the rpcs
     var rpcs = ethinfo[0].rpc;
 
+    //Test the rpcs
+    for (var i = 0; i < rpcs.length; i++) {
+      var object = rpcs[i];
+      for (var property in object) {
+        if (property == "endpoint") {
+          console.log(object[property]);
+        }
+      }
+    }
+
     console.log("Eth info:", rpcs[0].endpoint);
     console.log("Eth info:", typeof rpcs);
 
