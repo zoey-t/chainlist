@@ -22,6 +22,7 @@ const getUsers = () => {
 getUsers();
 */
 
+/*
 const url = "https://eth.llamarpc.com";
 
 const instance = axios.create();
@@ -47,6 +48,7 @@ instance
   .catch((error) => {
     console.error(`Error`);
   });
+*/
 
 const fetchChain = async (baseURL) => {
   if (baseURL.includes("API_KEY")) return null;
@@ -87,10 +89,42 @@ const fetchChain = async (baseURL) => {
 
 let response = fetchChain("https://eth.llamarpc.com");
 
-console.log(response);
+// console.log(response);
 
 response.then(function (result) {
-  console.log(result.latency);
+  console.log(
+    "The response time of https://eth.llamarpc.com is " + result.latency + "ms"
+  );
+});
+
+let response1 = fetchChain(
+  "https://endpoints.omniatech.io/v1/eth/mainnet/public"
+);
+
+response1.then(function (result) {
+  console.log(
+    "The response time of https://endpoints.omniatech.io/v1/eth/mainnet/public is " +
+      result.latency +
+      "ms"
+  );
+});
+
+let response2 = fetchChain("https://rpc.ankr.com/eth");
+
+response2.then(function (result) {
+  console.log(
+    "The response time of https://rpc.ankr.com/eth is " + result.latency + "ms"
+  );
+});
+
+let response3 = fetchChain("https://rpc.mevblocker.io/fullprivacy");
+
+response3.then(function (result) {
+  console.log(
+    "The response time of https://rpc.mevblocker.io/fullprivacy is " +
+      result.latency +
+      "ms"
+  );
 });
 
 /*
