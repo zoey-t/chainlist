@@ -37,25 +37,9 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
       for (var property in object) {
         if (property == "endpoint") {
           if (object[property].includes("wss://")) {
-            let response = fetchWssChain(object[property]);
-
-            console.log("The response time of " + object[property]);
-
-            response.then(function (result) {
-              console.log(" is " + result);
-            });
+            getResponse(object[property]);
           } else {
-            let response = fetchChain(object[property]);
-
-            console.log("The response time of " + object[property]);
-
-            response.then(function (result) {
-              if (result == null) {
-                console.log("is " + result);
-              } else {
-                console.log("is " + result.latency);
-              }
-            });
+            getResponse(object[property]);
           }
         }
       }
@@ -81,6 +65,18 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
     console.error("Error parsing JSON:", error);
   }
 });
+
+async function getResponse(baseURL) {
+  var result = await fetchChain(baseURL);
+
+  if (result == null) {
+    console.log("The response time of " + baseURL + " is " + result);
+    return result;
+  } else {
+    console.log("The response time of " + baseURL + " is " + result.latency);
+    return result.latency;
+  }
+}
 
 const rpcBody = JSON.stringify({
   jsonrpc: "2.0",

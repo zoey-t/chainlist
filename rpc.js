@@ -87,10 +87,22 @@ const fetchChain = async (baseURL) => {
   }
 };
 
-let response = fetchChain("https://eth.llamarpc.com");
+async function callAsync() {
+  var result = await fetchChain("https://eth.llamarpc.com");
 
-// console.log(response);
+  if (result == null) {
+    console.log("is " + result);
+    return result;
+  } else {
+    console.log("is " + result.latency);
+    return result.latency;
+  }
+}
 
+let x = callAsync();
+console.log(x);
+
+/*
 response.then(function (result) {
   console.log(
     "The response time of https://eth.llamarpc.com is " + result.latency + "ms"
@@ -100,6 +112,7 @@ response.then(function (result) {
 let response1 = fetchChain(
   "https://endpoints.omniatech.io/v1/eth/mainnet/public"
 );
+
 
 response1.then(function (result) {
   console.log(
@@ -126,6 +139,7 @@ response3.then(function (result) {
       "ms"
   );
 });
+*/
 
 /*
 function createPromise() {
