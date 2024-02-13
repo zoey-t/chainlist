@@ -91,15 +91,13 @@ async function callAsync() {
   var result = await fetchChain("https://eth.llamarpc.com");
 
   if (result == null) {
-    console.log("is " + result);
     return result;
   } else {
-    console.log("is " + result.latency);
     return result.latency;
   }
 }
 
-let x = callAsync();
+let x = await callAsync();
 console.log(x);
 
 /*

@@ -37,9 +37,9 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
       for (var property in object) {
         if (property == "endpoint") {
           if (object[property].includes("wss://")) {
-            getResponse(object[property]);
+            getResponseWss(object[property]);
           } else {
-            getResponse(object[property]);
+            getResponseHttp(object[property]);
           }
         }
       }
@@ -66,7 +66,21 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
   }
 });
 
-async function getResponse(baseURL) {
+async function getResponseWss(baseURL) {
+  var result = await fetchWssChain(baseURL);
+
+  if (result == null) {
+    console.log("The response time of " + baseURL + " is " + result);
+    return result;
+  } else {
+    console.log(
+      "The response time of " + baseURL + " is " + result.latency + " ms"
+    );
+    return result.latency;
+  }
+}
+
+async function getResponseHttp(baseURL) {
   var result = await fetchChain(baseURL);
 
   if (result == null) {
