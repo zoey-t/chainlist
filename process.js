@@ -73,7 +73,9 @@ async function getResponse(baseURL) {
     console.log("The response time of " + baseURL + " is " + result);
     return result;
   } else {
-    console.log("The response time of " + baseURL + " is " + result.latency);
+    console.log(
+      "The response time of " + baseURL + " is " + result.latency + " ms"
+    );
     return result.latency;
   }
 }
