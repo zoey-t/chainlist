@@ -36,20 +36,33 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
       var object = rpcs[i];
       for (var property in object) {
         if (property == "endpoint") {
-          console.log(object[property]);
+          if (object[property].includes("wss://")) {
+            let response = fetchWssChain(object[property]);
+
+            console.log("The response time of " + object[property]);
+
+            response.then(function (result) {
+              console.log(" is " + result);
+            });
+          } else {
+            let response = fetchChain(object[property]);
+
+            console.log("The response time of " + object[property]);
+
+            response.then(function (result) {
+              if (result == null) {
+                console.log("is " + result);
+              } else {
+                console.log("is " + result.latency);
+              }
+            });
+          }
         }
       }
     }
 
     console.log("Eth info:", rpcs[0].endpoint);
-    console.log("Eth info:", typeof rpcs);
-
-    // Axios section
-    url = "https://mainnet.infura.io/v3/a1e8edaa30d6402e8e19546ad7a3fa8c";
-
-    query = fetchChain(url);
-
-    console.log(query);
+    console.log("Eth info:", typeof rpcs[0].endpoint);
 
     // Convert the filtered array back to a JSON string
     const filteredJsonString = JSON.stringify(filteredArray, null, 2); // Beautify the JSON output
@@ -67,6 +80,13 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
   } catch (error) {
     console.error("Error parsing JSON:", error);
   }
+});
+
+const rpcBody = JSON.stringify({
+  jsonrpc: "2.0",
+  method: "eth_getBlockByNumber",
+  params: ["latest", false],
+  id: 1,
 });
 
 const fetchChain = async (baseURL) => {
@@ -101,6 +121,49 @@ const fetchChain = async (baseURL) => {
     let { data, latency } = await API.post("", rpcBody);
 
     return { ...data, latency };
+  } catch (error) {
+    return null;
+  }
+};
+
+function createPromise() {
+  let resolve, reject;
+  const promise = new Promise((_resolve, _reject) => {
+    resolve = _resolve;
+    reject = _reject;
+  });
+
+  promise.resolve = resolve;
+  promise.reject = reject;
+
+  return promise;
+}
+
+const fetchWssChain = async (baseURL) => {
+  try {
+    // small hack to wait until socket connection opens to show loading indicator on table row
+    const queryFn = createPromise();
+
+    const socket = new WebSocket(baseURL);
+    let requestStart;
+
+    socket.onopen = function () {
+      socket.send(rpcBody);
+      requestStart = Date.now();
+    };
+
+    socket.onmessage = function (event) {
+      const data = JSON.parse(event.data);
+
+      const latency = Date.now() - requestStart;
+      queryFn.resolve({ ...data, latency });
+    };
+
+    socket.onerror = function (e) {
+      queryFn.reject(e);
+    };
+
+    return await queryFn;
   } catch (error) {
     return null;
   }
