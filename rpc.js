@@ -22,7 +22,6 @@ const getUsers = () => {
 getUsers();
 */
 
-/*
 const url = "https://eth.llamarpc.com";
 
 const instance = axios.create();
@@ -91,10 +90,10 @@ let response = fetchChain("https://eth.llamarpc.com");
 console.log(response);
 
 response.then(function (result) {
-  console.log(result.latency); 
+  console.log(result.latency);
 });
 
-*/
+/*
 function createPromise() {
   let resolve, reject;
   const promise = new Promise((_resolve, _reject) => {
@@ -145,3 +144,4 @@ console.log(response);
 response.then(function (result) {
   console.log(result);
 });
+*/

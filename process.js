@@ -61,8 +61,8 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
       }
     }
 
-    console.log("Eth info:", rpcs[0].endpoint);
-    console.log("Eth info:", typeof rpcs[0].endpoint);
+    //console.log("Eth info:", rpcs[0].endpoint);
+    //console.log("Eth info:", typeof rpcs[0].endpoint);
 
     // Convert the filtered array back to a JSON string
     const filteredJsonString = JSON.stringify(filteredArray, null, 2); // Beautify the JSON output
