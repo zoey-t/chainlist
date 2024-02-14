@@ -92,11 +92,11 @@ async function callAsync(url) {
 
   if (result1 == null) {
     console.log(result1);
-    return result1;
+    return [url, result1];
   } else {
     console.log(result1.latency);
     let latency = result1.latency;
-    return latency;
+    return [url, latency];
   }
 }
 
