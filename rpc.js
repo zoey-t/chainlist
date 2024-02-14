@@ -101,10 +101,12 @@ async function callAsync(url) {
 }
 
 const latency1 = callAsync("https://eth.llamarpc.com");
-console.log(latency1);
+//console.log(latency1);
 
-const latency2 = callAsync("https://eth.llamarpc.com");
-console.log(latency2);
+const latency2 = callAsync(
+  "https://endpoints.omniatech.io/v1/eth/mainnet/public"
+);
+//console.log(latency2);
 
 Promise.all([latency1, latency2]).then((values) => {
   console.log(values);

@@ -31,19 +31,26 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
     //Get the rpcs
     var rpcs = ethinfo[0].rpc;
 
+    // Create an array that will have the rpcs and response times
+    let myArray = [];
+
     //Test the rpcs
     for (var i = 0; i < rpcs.length; i++) {
       var object = rpcs[i];
       for (var property in object) {
         if (property == "endpoint") {
           if (object[property].includes("wss://")) {
-            getResponseWss(object[property]);
+            myArray[i] = getResponseWss(object[property]);
           } else {
-            getResponseHttp(object[property]);
+            myArray[i] = getResponseHttp(object[property]);
           }
         }
       }
     }
+
+    Promise.all(myArray).then((values) => {
+      console.log(values);
+    });
 
     //console.log("Eth info:", rpcs[0].endpoint);
     //console.log("Eth info:", typeof rpcs[0].endpoint);
@@ -70,12 +77,8 @@ async function getResponseWss(baseURL) {
   var result = await fetchWssChain(baseURL);
 
   if (result == null) {
-    console.log("The response time of " + baseURL + " is " + result);
     return result;
   } else {
-    console.log(
-      "The response time of " + baseURL + " is " + result.latency + " ms"
-    );
     return result.latency;
   }
 }
@@ -84,12 +87,8 @@ async function getResponseHttp(baseURL) {
   var result = await fetchChain(baseURL);
 
   if (result == null) {
-    console.log("The response time of " + baseURL + " is " + result);
     return result;
   } else {
-    console.log(
-      "The response time of " + baseURL + " is " + result.latency + " ms"
-    );
     return result.latency;
   }
 }
