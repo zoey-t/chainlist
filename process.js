@@ -77,9 +77,9 @@ async function getResponseWss(baseURL) {
   var result = await fetchWssChain(baseURL);
 
   if (result == null) {
-    return result;
+    return [baseURL, result];
   } else {
-    return result.latency;
+    return [baseURL, result.latency];
   }
 }
 
@@ -87,9 +87,9 @@ async function getResponseHttp(baseURL) {
   var result = await fetchChain(baseURL);
 
   if (result == null) {
-    return result;
+    return [baseURL, result];
   } else {
-    return result.latency;
+    return [baseURL, result.latency];
   }
 }
 
