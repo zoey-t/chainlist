@@ -23,11 +23,21 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
       })),
     }));
 
+    // First get all the chainIds
+    let arrayChainIds = [];
+
+    for (var i = 0; i < filteredArray.length; i++) {
+      arrayChainIds[i] = filteredArray[i].chainId;
+    }
+
+    // console.log(arrayChainIds);
+
     //Let's take the ETH chain for example
     var ethinfo = filteredArray.filter(function (eth) {
       return eth["chainId"] == 1;
     });
 
+    /*
     //Get the rpcs
     var rpcs = ethinfo[0].rpc;
 
@@ -54,7 +64,7 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
       );
       console.log(sort);
     });
-
+*/
     //console.log("Eth info:", rpcs[0].endpoint);
     //console.log("Eth info:", typeof rpcs[0].endpoint);
 
