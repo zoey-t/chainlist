@@ -36,7 +36,7 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
     }
 
     // Loop through every chainId
-    for (var i = 0; i < 2; i++) {
+    for (var i = 0; i < arrayChainIds.length; i++) {
       //Filter the current chainId
       var chainInfo = filteredArray.filter(function (eth) {
         return eth["chainId"] == arrayChainIds[i];
@@ -79,7 +79,7 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
             console.error("Error writing the file:", err);
             return;
           }
-          console.log("Filtered JSON has been written to", outputPath);
+          //console.log("Filtered JSON has been written to", outputPath);
         });
       });
     }
