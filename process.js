@@ -32,37 +32,40 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
 
     // console.log(arrayChainIds);
 
-    //Let's take the ETH chain for example
-    var ethinfo = filteredArray.filter(function (eth) {
-      return eth["chainId"] == 1;
-    });
+    // Loop through every chainId
+    for (var i = 0; i < arrayChainIds.length; i++) {
+      //Filter the current chainId
+      var chainInfo = filteredArray.filter(function (eth) {
+        return eth["chainId"] == arrayChainIds[i];
+      });
 
-    //Get the rpcs
-    var rpcs = ethinfo[0].rpc;
+      //Get the rpcs
+      var rpcs = chainInfo[0].rpc;
 
-    // Create an array that will have the rpcs and response times
-    let myArray = [];
+      // Create an array that will have the rpcs and response times
+      let myArray = [];
 
-    //Test the rpcs
-    for (var i = 0; i < rpcs.length; i++) {
-      var object = rpcs[i];
-      for (var property in object) {
-        if (property == "endpoint") {
-          if (object[property].includes("wss://")) {
-            myArray[i] = getResponseWss(object[property]);
-          } else {
-            myArray[i] = getResponseHttp(object[property]);
+      //Test the rpcs
+      for (var k = 0; k < rpcs.length; k++) {
+        var object = rpcs[k];
+        for (var property in object) {
+          if (property == "endpoint") {
+            if (object[property].includes("wss://")) {
+              myArray[k] = getResponseWss(object[property]);
+            } else {
+              myArray[k] = getResponseHttp(object[property]);
+            }
           }
         }
       }
-    }
 
-    Promise.all(myArray).then((values) => {
-      var sort = values.sort(
-        (a, b) => (b[1] != null) - (a[1] != null) || a[1] - b[1]
-      );
-      console.log(sort[0]);
-    });
+      Promise.all(myArray).then((values) => {
+        var sort = values.sort(
+          (a, b) => (b[1] != null) - (a[1] != null) || a[1] - b[1]
+        );
+        console.log(sort[0]);
+      });
+    }
 
     //console.log("Eth info:", rpcs[0].endpoint);
     //console.log("Eth info:", typeof rpcs[0].endpoint);
