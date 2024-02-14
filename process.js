@@ -30,6 +30,9 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
       arrayChainIds[i] = filteredArray[i].chainId;
     }
 
+    // Create an array that will have the rpcs and response times
+    let myArray = [];
+
     // Loop through every chainId
     for (var i = 0; i < arrayChainIds.length; i++) {
       //Filter the current chainId
@@ -39,9 +42,6 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
 
       //Get the rpcs
       var rpcs = chainInfo[0].rpc;
-
-      // Create an array that will have the rpcs and response times
-      let myArray = [];
 
       //Test the rpcs
       for (var k = 0; k < rpcs.length; k++) {
@@ -56,14 +56,14 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
           }
         }
       }
-
-      Promise.all(myArray).then((values) => {
-        var sort = values.sort(
-          (a, b) => (b[2] != null) - (a[2] != null) || a[2] - b[2]
-        );
-        console.log(sort[0]);
-      });
     }
+
+    Promise.all(myArray).then((values) => {
+      var sort = values.sort(
+        (a, b) => (b[2] != null) - (a[2] != null) || a[2] - b[2]
+      );
+      console.log(sort);
+    });
 
     //console.log("Eth info:", rpcs[0].endpoint);
     //console.log("Eth info:", typeof rpcs[0].endpoint);
