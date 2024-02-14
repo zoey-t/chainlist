@@ -30,15 +30,15 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
       arrayChainIds[i] = filteredArray[i].chainId;
     }
 
-    // Create an array that will have the rpcs and response times
-    let myArray = [];
-
     // Loop through every chainId
-    for (var i = 0; i < arrayChainIds.length; i++) {
+    for (var i = 0; i < 2; i++) {
       //Filter the current chainId
       var chainInfo = filteredArray.filter(function (eth) {
         return eth["chainId"] == arrayChainIds[i];
       });
+
+      // Create an array that will have the rpcs and response times
+      let myArray = [];
 
       //Get the rpcs
       var rpcs = chainInfo[0].rpc;
@@ -56,20 +56,29 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
           }
         }
       }
-    }
 
-    Promise.all(myArray).then((values) => {
-      var sort = values.sort(
-        (a, b) => (b[2] != null) - (a[2] != null) || a[2] - b[2]
-      );
-      console.log(sort);
-    });
+      Promise.all(myArray).then((values) => {
+        var sort = values.sort(
+          (a, b) => (b[2] != null) - (a[2] != null) || a[2] - b[2]
+        );
+        console.log(sort[0]);
+        const filteredJsonString = JSON.stringify(sort[0], null, 2); // Beautify the JSON output
+
+        fs.writeFile(outputPath, filteredJsonString, "utf8", (err) => {
+          if (err) {
+            console.error("Error writing the file:", err);
+            return;
+          }
+          console.log("Filtered JSON has been written to", outputPath);
+        });
+      });
+    }
 
     //console.log("Eth info:", rpcs[0].endpoint);
     //console.log("Eth info:", typeof rpcs[0].endpoint);
 
     // Convert the filtered array back to a JSON string
-    const filteredJsonString = JSON.stringify(filteredArray, null, 2); // Beautify the JSON output
+    // const filteredJsonString = JSON.stringify(filteredArray, null, 2); // Beautify the JSON output
     //console.log("Filtered Json:", filteredJsonString);
 
     // Write the filtered JSON to a new file
