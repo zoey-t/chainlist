@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const filePath = path.join(__dirname, "./original_rpcs.json"); // from chainlist https://github.com/DefiLlama/chainlist/blob/main/generate-json.js
-const outputPath = path.join(__dirname, "../rpc.json");
+const outputPath = path.join(__dirname, "./rpc_test.json");
 const axios = require("axios");
 
 fs.readFile(filePath, "utf-8", (err, data1) => {
@@ -25,6 +25,11 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
 
     // First get all the chainIds
     let arrayChainIds = [];
+
+    // Define an object that will hold the final result
+    var obj = {
+      table: [],
+    };
 
     for (var i = 0; i < filteredArray.length; i++) {
       arrayChainIds[i] = filteredArray[i].chainId;
@@ -61,8 +66,13 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
         var sort = values.sort(
           (a, b) => (b[2] != null) - (a[2] != null) || a[2] - b[2]
         );
-        console.log(sort[0]);
-        const filteredJsonString = JSON.stringify(sort[0], null, 2); // Beautify the JSON output
+        //console.log(sort[0]);
+
+        //for (var k = 0; k < myArray.length; k++) {}
+        obj.table.push(sort[0]);
+        //console.log(obj);
+
+        const filteredJsonString = JSON.stringify(obj, null, 2); // Beautify the JSON output
 
         fs.writeFile(outputPath, filteredJsonString, "utf8", (err) => {
           if (err) {
