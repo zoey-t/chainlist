@@ -37,7 +37,6 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
       return eth["chainId"] == 1;
     });
 
-    /*
     //Get the rpcs
     var rpcs = ethinfo[0].rpc;
 
@@ -62,9 +61,9 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
       var sort = values.sort(
         (a, b) => (b[1] != null) - (a[1] != null) || a[1] - b[1]
       );
-      console.log(sort);
+      console.log(sort[0]);
     });
-*/
+
     //console.log("Eth info:", rpcs[0].endpoint);
     //console.log("Eth info:", typeof rpcs[0].endpoint);
 
