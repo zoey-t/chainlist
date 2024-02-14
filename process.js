@@ -30,8 +30,6 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
       arrayChainIds[i] = filteredArray[i].chainId;
     }
 
-    // console.log(arrayChainIds);
-
     // Loop through every chainId
     for (var i = 0; i < arrayChainIds.length; i++) {
       //Filter the current chainId
@@ -51,9 +49,9 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
         for (var property in object) {
           if (property == "endpoint") {
             if (object[property].includes("wss://")) {
-              myArray[k] = getResponseWss(object[property]);
+              myArray[k] = getResponseWss(arrayChainIds[i], object[property]);
             } else {
-              myArray[k] = getResponseHttp(object[property]);
+              myArray[k] = getResponseHttp(arrayChainIds[i], object[property]);
             }
           }
         }
@@ -61,7 +59,7 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
 
       Promise.all(myArray).then((values) => {
         var sort = values.sort(
-          (a, b) => (b[1] != null) - (a[1] != null) || a[1] - b[1]
+          (a, b) => (b[2] != null) - (a[2] != null) || a[2] - b[2]
         );
         console.log(sort[0]);
       });
@@ -88,23 +86,23 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
   }
 });
 
-async function getResponseWss(baseURL) {
+async function getResponseWss(chainId, baseURL) {
   var result = await fetchWssChain(baseURL);
 
   if (result == null) {
-    return [baseURL, result];
+    return [chainId, baseURL, result];
   } else {
-    return [baseURL, result.latency];
+    return [chainId, baseURL, result.latency];
   }
 }
 
-async function getResponseHttp(baseURL) {
+async function getResponseHttp(chainId, baseURL) {
   var result = await fetchChain(baseURL);
 
   if (result == null) {
-    return [baseURL, result];
+    return [chainId, baseURL, result];
   } else {
-    return [baseURL, result.latency];
+    return [chainId, baseURL, result.latency];
   }
 }
 
