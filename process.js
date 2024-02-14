@@ -49,7 +49,10 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
     }
 
     Promise.all(myArray).then((values) => {
-      console.log(values);
+      var sort = values.sort(
+        (a, b) => (b[1] != null) - (a[1] != null) || a[1] - b[1]
+      );
+      console.log(sort);
     });
 
     //console.log("Eth info:", rpcs[0].endpoint);
