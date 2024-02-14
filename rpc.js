@@ -87,18 +87,28 @@ const fetchChain = async (baseURL) => {
   }
 };
 
-async function callAsync() {
-  var result = await fetchChain("https://eth.llamarpc.com");
+async function callAsync(url) {
+  var result1 = await fetchChain(url);
 
-  if (result == null) {
-    return result;
+  if (result1 == null) {
+    console.log(result1);
+    return result1;
   } else {
-    return result.latency;
+    console.log(result1.latency);
+    let latency = result1.latency;
+    return latency;
   }
 }
 
-let x = await callAsync();
-console.log(x);
+const latency1 = callAsync("https://eth.llamarpc.com");
+console.log(latency1);
+
+const latency2 = callAsync("https://eth.llamarpc.com");
+console.log(latency2);
+
+Promise.all([latency1, latency2]).then((values) => {
+  console.log(values);
+});
 
 /*
 response.then(function (result) {
