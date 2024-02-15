@@ -3814,6 +3814,11 @@
       29,
       "https://rpc.genesisl1.org",
       130570
+    ],
+    [
+      40,
+      "https://api.kainosbp.com/evm",
+      4633
     ]
   ]
 }
