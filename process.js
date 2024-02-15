@@ -12,7 +12,6 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
   try {
     // Parse the JSON data
     const jsonArray = JSON.parse(data1);
-    //console.log("JSON object:", jsonArray);
     // Filter the fields for each object
     const filteredArray = jsonArray.map(({ name, chain, rpc, chainId }) => ({
       chain,
@@ -26,14 +25,14 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
     // First get all the chainIds
     let arrayChainIds = [];
 
+    for (var i = 0; i < filteredArray.length; i++) {
+      arrayChainIds[i] = filteredArray[i].chainId;
+    }
+
     // Define an object that will hold the final result
     var obj = {
       table: [],
     };
-
-    for (var i = 0; i < filteredArray.length; i++) {
-      arrayChainIds[i] = filteredArray[i].chainId;
-    }
 
     // Loop through every chainId
     for (var i = 0; i < arrayChainIds.length; i++) {
@@ -62,17 +61,14 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
         }
       }
 
+      // After the promise print a json file with the desired array
       Promise.all(myArray).then((values) => {
         var sort = values.sort(
           (a, b) => (b[2] != null) - (a[2] != null) || a[2] - b[2]
         );
-        //console.log(sort[0]);
 
-        //for (var k = 0; k < myArray.length; k++) {}
         if (sort[0] != null) {
           obj.table.push(sort[0]);
-
-          //console.log(obj);
 
           const filteredJsonString = JSON.stringify(obj, null, 2); // Beautify the JSON output
 
@@ -81,28 +77,10 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
               console.error("Error writing the file:", err);
               return;
             }
-            //console.log("Filtered JSON has been written to", outputPath);
           });
         }
       });
     }
-
-    //console.log("Eth info:", rpcs[0].endpoint);
-    //console.log("Eth info:", typeof rpcs[0].endpoint);
-
-    // Convert the filtered array back to a JSON string
-    // const filteredJsonString = JSON.stringify(filteredArray, null, 2); // Beautify the JSON output
-    //console.log("Filtered Json:", filteredJsonString);
-
-    // Write the filtered JSON to a new file
-    /*
-    fs.writeFile(outputPath, filteredJsonString, "utf8", (err) => {
-      if (err) {
-        console.error("Error writing the file:", err);
-        return;
-      }
-      console.log("Filtered JSON has been written to", outputPath);
-    }); */
   } catch (error) {
     console.error("Error parsing JSON:", error);
   }
