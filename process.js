@@ -111,9 +111,7 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
 async function getResponseWss(chainId, baseURL) {
   var result = await fetchWssChain(baseURL);
 
-  if (result == null) {
-    return [chainId, baseURL, result];
-  } else {
+  if (result != null) {
     return [chainId, baseURL, result.latency];
   }
 }
@@ -121,9 +119,7 @@ async function getResponseWss(chainId, baseURL) {
 async function getResponseHttp(chainId, baseURL) {
   var result = await fetchChain(baseURL);
 
-  if (result == null) {
-    return [chainId, baseURL, result];
-  } else {
+  if (result != null) {
     return [chainId, baseURL, result.latency];
   }
 }
