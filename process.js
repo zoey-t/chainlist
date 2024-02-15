@@ -69,18 +69,21 @@ fs.readFile(filePath, "utf-8", (err, data1) => {
         //console.log(sort[0]);
 
         //for (var k = 0; k < myArray.length; k++) {}
-        obj.table.push(sort[0]);
-        //console.log(obj);
+        if (sort[0] != null) {
+          obj.table.push(sort[0]);
 
-        const filteredJsonString = JSON.stringify(obj, null, 2); // Beautify the JSON output
+          //console.log(obj);
 
-        fs.writeFile(outputPath, filteredJsonString, "utf8", (err) => {
-          if (err) {
-            console.error("Error writing the file:", err);
-            return;
-          }
-          //console.log("Filtered JSON has been written to", outputPath);
-        });
+          const filteredJsonString = JSON.stringify(obj, null, 2); // Beautify the JSON output
+
+          fs.writeFile(outputPath, filteredJsonString, "utf8", (err) => {
+            if (err) {
+              console.error("Error writing the file:", err);
+              return;
+            }
+            //console.log("Filtered JSON has been written to", outputPath);
+          });
+        }
       });
     }
 
