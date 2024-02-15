@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const filePath = path.join(__dirname, "./original_rpcs.json"); // from chainlist https://github.com/DefiLlama/chainlist/blob/main/generate-json.js
-const outputPath = path.join(__dirname, "./rpc_test.json");
+const outputPath = path.join(__dirname, "./rpc_final.json");
 const axios = require("axios");
 
 fs.readFile(filePath, "utf-8", (err, data1) => {
